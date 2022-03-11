@@ -9,13 +9,13 @@ describe("Login in Student application", () => {
     await $("input[type=tel]").setValue("9727775555");
     await $('button[type="submit"]').click();
 
-    await browser.pause(1000);
+    await browser.pause(2000);
 
     /**
      * Вводим код на вход
      * Перед запуском надо заполнить code - массив из четырех чисел
      */
-    const code = [];
+    const code = [0, 0, 0, 0];
     await $("input[type=tel]:first-of-type").setValue(code[0]);
     await $("input[type=tel]:nth-child(2)").setValue(code[1]);
     await $("input[type=tel]:nth-child(3)").setValue(code[2]);
@@ -26,6 +26,34 @@ describe("Login in Student application", () => {
 
   it("Login lanchpad", async () => {
     await (await $("a=Учебное приложение")).click();
+
+    await browser.pause(1000);
+  });
+
+  it("Test chat", async () => {
+    await (await $("div[data-test=Обучение]")).click();
+
+    await browser.pause(1000);
+
+    await (await $("div=Тест на рассылки")).click();
+
+    await browser.pause(1000);
+
+    const random = "Тестовый комментарий " + Math.floor(Math.random() * 99999);
+
+    await (await $("textarea")).setValue(random);
+
+    await browser.pause(1000);
+
+    await (await $("div[data-test=Отправить]")).click();
+
+    console.log(random);
+
+    await browser.pause(1000);
+
+    const divelem = $("div");
+
+    await expect(divelem).toHaveTextContaining(random);
 
     await browser.pause(1000);
   });
