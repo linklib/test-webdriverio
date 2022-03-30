@@ -1,5 +1,5 @@
 /**
- * Тестирование приложения мастера (Чат)
+ * Тестирование приложения мастера
  */
 
 import { clickElement, checkComment } from "./index";
@@ -41,13 +41,16 @@ export const master = () => {
       const random =
         "Тестовый комментарий " + Math.floor(Math.random() * 99999);
 
-      expect(await $("textarea")).toBeExisting();
+      expect(await Master.chatTextarea).toBeExisting();
 
-      clickElement("textarea");
+      await (
+        await Master.chatTextarea
+      ).click;
+      //clickElement("textarea");
 
       await browser.pause(2000);
 
-      await (await $("textarea")).setValue(random);
+      await (await Master.chatTextarea).setValue(random);
 
       await browser.pause(2000);
 
@@ -136,11 +139,6 @@ export const master = () => {
       await expect(browser).toHaveUrl("https://master.libicraft.ru/crm/tasks");
 
       expect(await $("div=Обработать новый заказ")).toBeExisting();
-
-      console.log(
-        "Текст блока ##: ",
-        await $("div=Обработать новый заказ").getText()
-      );
 
       clickElement("div=Обработать новый заказ");
 

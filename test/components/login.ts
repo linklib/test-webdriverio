@@ -15,7 +15,7 @@ export const login = () => {
        * Вводим код на вход
        * Перед запуском надо заполнить code - массив из четырех чисел
        */
-      const code = [4, 3, 6, 2];
+      const code = [0, 0, 0, 0];
       await $("input[type=tel]:first-of-type").setValue(code[0]);
       await $("input[type=tel]:nth-child(2)").setValue(code[1]);
       await $("input[type=tel]:nth-child(3)").setValue(code[2]);

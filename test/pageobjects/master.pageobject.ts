@@ -10,6 +10,9 @@ class Master extends Page {
   get chatBox() {
     return $("div=Тест на рассылки");
   }
+  get chatTextarea() {
+    return $("textarea");
+  }
 }
 
 export default new Master();
