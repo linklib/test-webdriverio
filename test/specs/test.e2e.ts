@@ -8,7 +8,7 @@ login_2();
 
 master_2();
 
-//student_2();
+student_2();
 
 //login();
 

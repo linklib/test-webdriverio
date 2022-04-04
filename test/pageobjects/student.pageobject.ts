@@ -10,6 +10,9 @@ class Student extends Page {
   get chatBox() {
     return $("div=Тест на рассылки");
   }
+  get chatTextarea2() {
+    return $("textarea");
+  }
 }
 
 export default new Student();

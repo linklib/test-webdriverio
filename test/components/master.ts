@@ -156,26 +156,16 @@ export const master = () => {
 export const master_2 = () => {
   describe("Тест приложения мастера: Чат", () => {
     it("Переход в приложение мастера", async () => {
-      //clickElement("a=Кабинет Школа Soho.MBA");
-      //clickElement(Master.cabinet);
       await (await $(await Master.cabinet2)).click();
-      //await browser.pause(3000);
     });
 
     it("Тестирование чата Лента ответов", async () => {
-      //await Master.chatRole.waitForDisplayed({ timeout: 5000 });
-
       await Master.chatRole2.waitForExist({ timeout: 10000 });
 
-      //expect(await $("div[role='Лента ответов']")).toBeExisting();
-      //expect(await Master.chatRole).toBeExisting();
-
-      //clickElement("div[role='Лента ответов']");
       await (await $(await Master.chatRole2)).click();
 
       await browser.pause(2000);
 
-      //clickElement("div=Тест на рассылки");
       await (await $(await Master.chatBox2)).click();
 
       await browser.pause(5000);
@@ -185,14 +175,12 @@ export const master_2 = () => {
        */
 
       const random = randomComment();
-      //"Тестовый комментарий " + Math.floor(Math.random() * 99999);
 
       expect(await Master.chatTextarea2).toBeExisting();
 
       await (
         await Master.chatTextarea2
       ).click;
-      //clickElement("textarea");
 
       await browser.pause(2000);
 
@@ -222,7 +210,6 @@ export const master_2 = () => {
 
       const remoteFilePath = await browser.uploadFile(filePath);
       const remoteFilePath2 = await browser.uploadFile(filePath2);
-      //console.log("remoteFilePath: ", remoteFilePath);
 
       expect(await $("input[type=file]")).toBeExisting();
 
@@ -242,22 +229,22 @@ export const master_2 = () => {
 
       await expect(divelem).toHaveTextContaining(await random);
 
-      await browser.pause(3000);
+      await browser.pause(5000);
 
       const zadanie = await (await $(".Txoc1")).getText();
 
       console.log("zadanie: ", zadanie);
 
       if (zadanie == "Переделать") {
-        clickElement("div=Принять");
+        await (await $("div=Принять")).click();
       } else {
-        clickElement("div=Изменить оценку");
-        clickElement("div=Отклонить");
+        await (await $("div=Изменить оценку")).click();
+        expect(await $("div=Отклонить")).toBeExisting();
+        await (await $("div=Отклонить")).click();
       }
     });
   });
 
-  /*
   describe("Тест приложения мастера: Продажи", () => {
     it("Тестирование раздела Продажи", async () => {
       clickElement("span=Продажи");
@@ -268,48 +255,17 @@ export const master_2 = () => {
         "https://master.libicraft.ru/crm/clients"
       );
 
-      expect(await $("*=Лиза Близнюк")).toBeExisting();
-      await browser.pause(1000);
-      clickElement("*=Лиза Близнюк");
-      await browser.pause(1000);
-      expect(await $("span=clientTest")).toBeExisting();
-      await browser.pause(1000);
-
-      expect(await $("*=Ксения Зимина")).toBeExisting();
-      await browser.pause(1000);
-      clickElement("*=Ксения Зимина");
-      await browser.pause(1000);
-      expect(await $("span=clientTest")).toBeExisting();
-      await browser.pause(1000);
-
-      expect(await $("*=Иван Васильев")).toBeExisting();
-      await browser.pause(1000);
-      clickElement("*=Иван Васильев");
-      await browser.pause(1000);
-      expect(await $("span=clientTest")).toBeExisting();
-      await browser.pause(1000);
-
-      /*
       const clients = ["*=Лиза Близнюк", "*=Ксения Зимина", "*=Иван Васильев"];
 
       clients.forEach(async (c) => {
         expect(await $(c)).toBeExisting();
         await browser.pause(1000);
-        clickElement(c);
+        await (await $(c)).click();
         await browser.pause(1000);
         expect(await $("span=clientTest")).toBeExisting();
         await browser.pause(1000);
       });
-*/
-  /*
-      expect(await $("*=Мобильное")).toBeExisting();
 
-      clickElement("*=Мобильное");
-
-      expect(await $("span=clientTest")).toBeExisting();
-      */
-  //await $("span=clientTest").waitForDisplayed({ timeout: 5000 });
-  /*
       clickElement("span=Продажи");
 
       clickElement("a.a-unstyled=Заказы");
@@ -377,5 +333,4 @@ export const master_2 = () => {
       expect(await $("[role='Отправить']")).toBeExisting();
     });
   });
-  */
 };

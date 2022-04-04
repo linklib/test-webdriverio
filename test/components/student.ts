@@ -5,6 +5,8 @@
 import { clickElement, checkComment, randomComment } from "./index";
 import Student from "../pageobjects/student.pageobject";
 
+const path = require("path");
+
 export const student = () => {
   describe("Тест приложения студента", () => {
     it("Переход в приложение студента", async () => {
@@ -183,19 +185,13 @@ export const student_2 = () => {
   describe("Тест приложения студента", () => {
     it("Переход в приложение студента", async () => {
       await browser.url(`https://student.libicraft.ru`);
+
       await expect(browser).toHaveUrlContaining("student");
-
-      //await browser.url(`https://libicraft.ru/launchpad`);
-      //await expect(browser).toHaveUrlContaining("launchpad");
-
-      //await (await $(await Student.cabinet)).click();
-      //clickElement("a=Учебное приложение");
     });
 
     it("Тестирование чата Обучение", async () => {
-      //await (await $(await Student.chatRole)).click();
       clickElement("div[data-test=Обучение]");
-      //await (await $(await Student.chatBox)).click();
+
       clickElement("div=Попов Дмитрий");
 
       /**
@@ -203,31 +199,61 @@ export const student_2 = () => {
        */
 
       const random = randomComment();
-      //"Тестовый комментарий " + Math.floor(Math.random() * 99999);
 
-      await (await $("textarea")).setValue(await random);
+      expect(await Student.chatTextarea2).toBeExisting();
 
-      await browser.pause(1000);
-      /*
-    const filePath = path.join(__dirname, "../data/dog.jpg");
+      await (
+        await Student.chatTextarea2
+      ).click;
 
-    const remoteFilePath = await browser.uploadFile(filePath);
+      await browser.pause(2000);
 
-    await (await $("input[type=file]")).setValue(remoteFilePath);
+      await (await Student.chatTextarea2).setValue(await random);
 
-    await browser.pause(1000);
-    */
-      await (await $("div[data-test=Отправить]")).click();
+      await browser.pause(2000);
 
-      console.log(random);
+      const filePath = path.join(__dirname, "../data/dog.jpg");
+      const filePath2 = path.join(__dirname, "../data/text.txt");
 
-      await browser.pause(1000);
+      console.log("filePath: ", filePath);
+      console.log("filePath2: ", filePath2);
+
+      /**
+       *  Меняем свойство display для input[type=file] на block, иначе его нельзя найти
+       */
+
+      const fileUpload = $("input[type=file]");
+      browser.executeAsync(() => {
+        const elems: any = document.querySelectorAll("input[type='file']");
+        for (var i = 0; i < elems.length; i++) elems[i].style.display = "block";
+        elems[i].removeAttribute("multiple");
+      });
+      fileUpload.waitForDisplayed();
+
+      await browser.pause(3000);
+
+      const remoteFilePath = await browser.uploadFile(filePath);
+      const remoteFilePath2 = await browser.uploadFile(filePath2);
+
+      expect(await $("input[type=file]")).toBeExisting();
+
+      await (await $("input[type=file]")).setValue(remoteFilePath);
+
+      await browser.pause(3000);
+
+      await (await $("input[type=file]")).setValue(remoteFilePath2);
+
+      await browser.pause(3000);
+
+      await (await $("div[role=Отправить]")).click();
+
+      await browser.pause(5000);
 
       const divelem = $("div");
 
       await expect(divelem).toHaveTextContaining(await random);
 
-      await browser.pause(1000);
+      await browser.pause(5000);
     });
 
     it("Тестирование раздела Обучение", async () => {
@@ -247,11 +273,9 @@ export const student_2 = () => {
 
       const iframe = await $("iframe:first-of-type");
 
-      //expect(iframe).toBeExisting();
       await iframe.waitForDisplayed({ timeout: 3000 });
 
       await $(iframe).doubleClick();
-      //await $(iframe).click();
 
       await browser.pause(10000);
 
@@ -271,7 +295,6 @@ export const student_2 = () => {
       await expect(pause).toBeExisting();
       await browser.switchToFrame(null);
 
-      //await $("iframe:first-of-type").click();
       await $("iframe:first-of-type").doubleClick();
 
       console.log("Пауза во фрейме есть");
@@ -290,21 +313,12 @@ export const student_2 = () => {
       expect(elem).toBeExisting();
 
       await browser.pause(3000);
-      /*
-      const text = $(elem).getText();
 
-      await browser.pause(2000);
-
-      console.log("Текст на кнопке: ", text);
-
-      await browser.pause(5000);
-*/
       await elem.click();
 
       await browser.pause(2000);
 
       const random2 = randomComment();
-      //"Тестовый комментарий " + Math.floor(Math.random() * 99999);
 
       console.log(random2);
 
@@ -331,16 +345,5 @@ export const student_2 = () => {
     it("Закрыть тестовый браузер", async () => {
       browser.closeWindow();
     });
-
-    /*
-  it("Change chat tab", async () => {
-    await (await $("div=Обучение")).click();
-
-    await browser.executeAsync((done) => {
-      console.log("Wake me up before you go!");
-      setTimeout(done, 1000);
-    });
-  });
-  */
   });
 };
