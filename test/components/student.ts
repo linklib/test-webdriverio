@@ -2,7 +2,7 @@
  * Тестирование приложения мастера
  */
 
-import { clickElement, checkComment, randomComment } from "./index";
+import { clickElement, checkComment, randomComment, uploadFile } from "./index";
 import Student from "../pageobjects/student.pageobject";
 
 const path = require("path");
@@ -212,38 +212,9 @@ export const student_2 = () => {
 
       await browser.pause(2000);
 
-      const filePath = path.join(__dirname, "../data/dog.jpg");
-      const filePath2 = path.join(__dirname, "../data/text.txt");
+      uploadFile();
 
-      console.log("filePath: ", filePath);
-      console.log("filePath2: ", filePath2);
-
-      /**
-       *  Меняем свойство display для input[type=file] на block, иначе его нельзя найти
-       */
-
-      const fileUpload = $("input[type=file]");
-      browser.executeAsync(() => {
-        const elems: any = document.querySelectorAll("input[type='file']");
-        for (var i = 0; i < elems.length; i++) elems[i].style.display = "block";
-        elems[i].removeAttribute("multiple");
-      });
-      fileUpload.waitForDisplayed();
-
-      await browser.pause(3000);
-
-      const remoteFilePath = await browser.uploadFile(filePath);
-      const remoteFilePath2 = await browser.uploadFile(filePath2);
-
-      expect(await $("input[type=file]")).toBeExisting();
-
-      await (await $("input[type=file]")).setValue(remoteFilePath);
-
-      await browser.pause(3000);
-
-      await (await $("input[type=file]")).setValue(remoteFilePath2);
-
-      await browser.pause(3000);
+      await browser.pause(10000);
 
       await (await $("div[role=Отправить]")).click();
 
