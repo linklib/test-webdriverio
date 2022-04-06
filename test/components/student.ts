@@ -7,6 +7,148 @@ import Student from "../pageobjects/student.pageobject";
 
 const path = require("path");
 
+export const student_2 = () => {
+  describe("Тест приложения студента", () => {
+    it("Переход в приложение студента", async () => {
+      await browser.url(`https://student.libicraft.ru`);
+
+      await expect(browser).toHaveUrlContaining("student");
+    });
+
+    it("Тестирование чата Обучение", async () => {
+      clickElement("div[data-test=Обучение]");
+
+      clickElement("div=Попов Дмитрий");
+
+      /**
+       * Генерация уникального тестового комментария и проверка его наличия
+       */
+
+      const random = randomComment();
+
+      expect(await Student.chatTextarea2).toBeExisting();
+
+      await (
+        await Student.chatTextarea2
+      ).click;
+
+      await browser.pause(2000);
+
+      await (await Student.chatTextarea2).setValue(await random);
+
+      await browser.pause(2000);
+
+      uploadFile();
+
+      await browser.pause(10000);
+
+      await (await $("div[role=Отправить]")).click();
+
+      await browser.pause(5000);
+
+      const divelem = $("div");
+
+      await expect(divelem).toHaveTextContaining(await random);
+
+      await browser.pause(5000);
+    });
+
+    it("Тестирование раздела Обучение", async () => {
+      clickElement("a=Обучение");
+
+      await $("input[type=text]").setValue("Продукт");
+
+      await browser.pause(1000);
+
+      await (await $("a=Продолжить")).click();
+
+      await browser.pause(5000);
+
+      /**
+       * Запускаем видео кликом на фрейме
+       */
+
+      const iframe = await $("iframe:first-of-type");
+
+      await iframe.waitForDisplayed({ timeout: 3000 });
+
+      await $(iframe).doubleClick();
+
+      await browser.pause(10000);
+
+      /**
+       * Для поиска в доме фрейма переключаемся на фрейм
+       */
+      await browser.switchToFrame(0);
+      await browser.pause(2000);
+
+      /**
+       * Проверяем играет ли видео через наличие иконки паузы
+       */
+      const pause = await $("#pause");
+
+      await browser.pause(1000);
+
+      await expect(pause).toBeExisting();
+      await browser.switchToFrame(null);
+
+      await $("iframe:first-of-type").doubleClick();
+
+      console.log("Пауза во фрейме есть");
+
+      await browser.pause(2000);
+
+      /**
+       * Сдать задание
+       */
+
+      clickElement("span*=Задание 1");
+
+      await browser.pause(2000);
+
+      const elem = await $("button=Сдать задание");
+      expect(elem).toBeExisting();
+
+      await browser.pause(3000);
+
+      await elem.click();
+
+      await browser.pause(2000);
+
+      const random2 = randomComment();
+
+      console.log(random2);
+
+      await browser.pause(5000);
+
+      await (await $("textarea")).setValue(await random2);
+
+      await browser.pause(1000);
+
+      await (await $("div[data-test=Отправить]")).click();
+
+      const divelem = $("div");
+
+      await expect(divelem).toHaveTextContaining(await random2);
+
+      await browser.pause(1000);
+    });
+
+    it("Выйти из аккаунта", async () => {
+      clickElement("a=Профиль");
+      clickElement("a=Выйти");
+    });
+
+    it("Закрыть тестовый браузер", async () => {
+      browser.closeWindow();
+    });
+  });
+};
+
+/**
+ * Для акка 972 777-5555
+ */
+
 export const student = () => {
   describe("Тест приложения студента", () => {
     it("Переход в приложение студента", async () => {
@@ -178,143 +320,5 @@ export const student = () => {
     });
   });
   */
-  });
-};
-
-export const student_2 = () => {
-  describe("Тест приложения студента", () => {
-    it("Переход в приложение студента", async () => {
-      await browser.url(`https://student.libicraft.ru`);
-
-      await expect(browser).toHaveUrlContaining("student");
-    });
-
-    it("Тестирование чата Обучение", async () => {
-      clickElement("div[data-test=Обучение]");
-
-      clickElement("div=Попов Дмитрий");
-
-      /**
-       * Генерация уникального тестового комментария и проверка его наличия
-       */
-
-      const random = randomComment();
-
-      expect(await Student.chatTextarea2).toBeExisting();
-
-      await (
-        await Student.chatTextarea2
-      ).click;
-
-      await browser.pause(2000);
-
-      await (await Student.chatTextarea2).setValue(await random);
-
-      await browser.pause(2000);
-
-      uploadFile();
-
-      await browser.pause(10000);
-
-      await (await $("div[role=Отправить]")).click();
-
-      await browser.pause(5000);
-
-      const divelem = $("div");
-
-      await expect(divelem).toHaveTextContaining(await random);
-
-      await browser.pause(5000);
-    });
-
-    it("Тестирование раздела Обучение", async () => {
-      clickElement("a=Обучение");
-
-      await $("input[type=text]").setValue("Продукт");
-
-      await browser.pause(1000);
-
-      await (await $("a=Продолжить")).click();
-
-      await browser.pause(5000);
-
-      /**
-       * Запускаем видео кликом на фрейме
-       */
-
-      const iframe = await $("iframe:first-of-type");
-
-      await iframe.waitForDisplayed({ timeout: 3000 });
-
-      await $(iframe).doubleClick();
-
-      await browser.pause(10000);
-
-      /**
-       * Для поиска в доме фрейма переключаемся на фрейм
-       */
-      await browser.switchToFrame(0);
-      await browser.pause(2000);
-
-      /**
-       * Проверяем играет ли видео через наличие иконки паузы
-       */
-      const pause = await $("#pause");
-
-      await browser.pause(1000);
-
-      await expect(pause).toBeExisting();
-      await browser.switchToFrame(null);
-
-      await $("iframe:first-of-type").doubleClick();
-
-      console.log("Пауза во фрейме есть");
-
-      await browser.pause(2000);
-
-      /**
-       * Сдать задание
-       */
-
-      clickElement("span*=Задание 1");
-
-      await browser.pause(2000);
-
-      const elem = await $("button=Сдать задание");
-      expect(elem).toBeExisting();
-
-      await browser.pause(3000);
-
-      await elem.click();
-
-      await browser.pause(2000);
-
-      const random2 = randomComment();
-
-      console.log(random2);
-
-      await browser.pause(5000);
-
-      await (await $("textarea")).setValue(await random2);
-
-      await browser.pause(1000);
-
-      await (await $("div[data-test=Отправить]")).click();
-
-      const divelem = $("div");
-
-      await expect(divelem).toHaveTextContaining(await random2);
-
-      await browser.pause(1000);
-    });
-
-    it("Выйти из аккаунта", async () => {
-      clickElement("a=Профиль");
-      clickElement("a=Выйти");
-    });
-
-    it("Закрыть тестовый браузер", async () => {
-      browser.closeWindow();
-    });
   });
 };

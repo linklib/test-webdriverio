@@ -1,12 +1,12 @@
 //import Login from "../pageobjects/login.pageobject";
 
-export const login = () => {
+export const login_2 = () => {
   describe("Авторизация", () => {
     it("Аторизация в ланчпад", async () => {
       //await Login.open();
       await browser.url(`https://libicraft.ru/login`);
 
-      await $("input[type=tel]").setValue("9727775555");
+      await $("input[type=tel]").setValue("9726240634");
       await $('button[type="submit"]').click();
 
       await browser.pause(4000);
@@ -28,13 +28,17 @@ export const login = () => {
   });
 };
 
-export const login_2 = () => {
+/**
+ * Для акка 972 777-5555
+ */
+
+export const login = () => {
   describe("Авторизация", () => {
     it("Аторизация в ланчпад", async () => {
       //await Login.open();
       await browser.url(`https://libicraft.ru/login`);
 
-      await $("input[type=tel]").setValue("9726240634");
+      await $("input[type=tel]").setValue("9727775555");
       await $('button[type="submit"]').click();
 
       await browser.pause(4000);
