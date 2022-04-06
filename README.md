@@ -2,8 +2,7 @@
 
 1. Инициализировать проект
 
-2. Сюда ввести код из смс https://github.com/linklib/test-webdriverio/blob/ecf8849dbc84bc36b36f455bae843ee3de01da9e/test/components/login.ts#L18
-
+2. Сюда ввести код из смс https://github.com/linklib/test-webdriverio/blob/116eaeae4f722ab898df01aba2bee89469bc7ab4/test/components/login.ts#L46
 3. Запуск yarn wdio
 
 -----
