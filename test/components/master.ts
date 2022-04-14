@@ -17,10 +17,9 @@ export const master_2 = () => {
       await (await $(await Master.chatRole2)).click();
 
       await browser.pause(2000);
+      //await Master.chatBox2.waitForExist({ timeout: 2000 });
 
       await (await $(await Master.chatBox2)).click();
-
-      await browser.pause(5000);
 
       /**
        * Генерация уникального тестового комментария и проверка его наличия
@@ -34,19 +33,15 @@ export const master_2 = () => {
         await Master.chatTextarea2
       ).click;
 
-      await browser.pause(2000);
-
       await (await Master.chatTextarea2).setValue(await random);
-
-      await browser.pause(2000);
 
       uploadFile();
 
       await browser.pause(10000);
 
-      await (await $("div[role=Отправить]")).click();
+      expect(await $("div=text.txt")).toBeExisting();
 
-      await browser.pause(5000);
+      await (await $("div[role=Отправить]")).click();
 
       const zadanie = await (await $(".Txoc1")).getText();
 
@@ -64,35 +59,63 @@ export const master_2 = () => {
 
   describe("Тест приложения мастера: Продажи", () => {
     it("Тестирование раздела Продажи", async () => {
-      clickElement("span=Продажи");
+      await (await $("span=Продажи")).click();
 
-      clickElement("a.a-unstyled=Клиенты");
+      await (await $("a.a-unstyled=Клиенты")).waitForExist({ timeout: 3000 });
 
-      await expect(browser).toHaveUrl(
-        "https://master.libicraft.ru/crm/clients"
+      await (await $("a.a-unstyled=Клиенты")).click();
+
+      await browser.waitUntil(
+        async () =>
+          (await browser.getUrl()) ===
+          "https://master.libicraft.ru/crm/clients",
+        {
+          timeout: 5000,
+          timeoutMsg: "URL не https://master.libicraft.ru/crm/clients",
+        }
       );
 
       const clients = ["*=Лиза Близнюк", "*=Ксения Зимина", "*=Иван Васильев"];
 
       clients.forEach(async (c) => {
-        expect(await $(c)).toBeExisting();
-        await browser.pause(1000);
+        await (await $(c)).waitForExist({ timeout: 1000 });
         await (await $(c)).click();
-        await browser.pause(1000);
-        expect(await $("span=clientTest")).toBeExisting();
-        await browser.pause(1000);
+        await (await $("span=clientTest")).waitForExist({ timeout: 1000 });
       });
 
-      clickElement("span=Продажи");
+      await (await $("span=Продажи")).click();
 
-      clickElement("a.a-unstyled=Заказы");
+      await (await $("a.a-unstyled=Заказы")).click();
 
-      await expect(browser).toHaveUrl("https://master.libicraft.ru/crm/orders");
+      await browser.waitUntil(
+        async () =>
+          (await browser.getUrl()) === "https://master.libicraft.ru/crm/orders",
+        {
+          timeout: 5000,
+          timeoutMsg: "URL не https://master.libicraft.ru/crm/orders",
+        }
+      );
 
       await $(
         "input[placeholder='Имя, телефон, номер или дата заказа...']"
       ).setValue("25307");
 
+      await (
+        await $("a[href='/crm/orders/25307']")
+      ).waitForExist({
+        timeout: 3000,
+      });
+
+      await (await $("a[href='/crm/orders/25307']")).click();
+
+      await (
+        await $("span=dima_pp@mail.ru")
+      ).waitForExist({
+        timeout: 3000,
+        timeoutMsg: "Не найден dima_pp@mail.ru в заказе 25307",
+      });
+
+      /*
       await browser.pause(1000);
 
       expect(await $("a[href='/crm/orders/25307']")).toBeExisting();
@@ -102,7 +125,28 @@ export const master_2 = () => {
       expect(await $("span=dima_pp@mail.ru")).toBeExisting();
 
       await browser.pause(5000);
+      */
 
+      await $(
+        "input[placeholder='Имя, телефон, номер или дата заказа...']"
+      ).setValue("25258");
+
+      await (
+        await $("a[href='/crm/orders/25258']")
+      ).waitForExist({
+        timeout: 3000,
+      });
+
+      await (await $("a[href='/crm/orders/25258']")).click();
+
+      await (
+        await $("span=dima_pp@mail.ru")
+      ).waitForExist({
+        timeout: 3000,
+        timeoutMsg: "Не найден dima_pp@mail.ru в заказе 25258",
+      });
+
+      /*
       await $(
         "input[placeholder='Имя, телефон, номер или дата заказа...']"
       ).setValue("25258");
@@ -117,6 +161,28 @@ export const master_2 = () => {
 
       await browser.pause(5000);
 
+      */
+
+      await $(
+        "input[placeholder='Имя, телефон, номер или дата заказа...']"
+      ).setValue("25193");
+
+      await (
+        await $("a[href='/crm/orders/25193']")
+      ).waitForExist({
+        timeout: 3000,
+      });
+
+      await (await $("a[href='/crm/orders/25193']")).click();
+
+      await (
+        await $("span=dima_pp@mail.ru")
+      ).waitForExist({
+        timeout: 3000,
+        timeoutMsg: "Не найден rinat88@mail.ru в заказе 25193",
+      });
+
+      /*
       await $(
         "input[placeholder='Имя, телефон, номер или дата заказа...']"
       ).setValue("25193");
@@ -128,6 +194,39 @@ export const master_2 = () => {
       clickElement("a[href='/crm/orders/25193']");
 
       expect(await $("span=rinat88@mail.ru")).toBeExisting();
+      */
+
+      await (await $("span=Продажи")).click();
+
+      await (await $("a.a-unstyled=Задачи")).click();
+
+      await browser.waitUntil(
+        async () =>
+          (await browser.getUrl()) === "https://master.libicraft.ru/crm/tasks",
+        {
+          timeout: 5000,
+          timeoutMsg: "URL не https://master.libicraft.ru/crm/tasks",
+        }
+      );
+
+      expect(await $("div=Напомнить об оплате по заказу")).toBeExisting();
+
+      await (await $("div=Напомнить об оплате по заказу")).click();
+
+      await browser.waitUntil(
+        async () =>
+          (await browser.getUrl()) ===
+          "https://master.libicraft.ru/crm/tasks/429?chatId=371",
+        {
+          timeout: 5000,
+          timeoutMsg:
+            "URL не https://master.libicraft.ru/crm/tasks/429?chatId=371",
+        }
+      );
+
+      expect(await $("[role='Отправить']")).toBeExisting();
+
+      /*
 
       await browser.pause(5000);
 
@@ -148,6 +247,7 @@ export const master_2 = () => {
       await browser.pause(1000);
 
       expect(await $("[role='Отправить']")).toBeExisting();
+      */
     });
   });
 };

@@ -16,9 +16,11 @@ export const student_2 = () => {
     });
 
     it("Тестирование чата Обучение", async () => {
-      clickElement("div[data-test=Обучение]");
+      await (await $("div[data-test=Обучение]")).click();
 
-      clickElement("div=Попов Дмитрий");
+      await (await $("div=Попов Дмитрий")).waitForExist({ timeout: 3000 });
+
+      await (await $("div=Попов Дмитрий")).click();
 
       /**
        * Генерация уникального тестового комментария и проверка его наличия
