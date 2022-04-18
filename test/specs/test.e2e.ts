@@ -9,7 +9,7 @@ master_2();
 
 student_2();
 
-landing();
+//landing();
 
 //---
 //login();
