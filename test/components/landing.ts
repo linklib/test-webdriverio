@@ -3,6 +3,8 @@
  */
 
 /**
++ проверить наличие виджета на лендинге
++ проверить наличие виджета на стороннем сайте
 + открыть лэндинг
 + выбрать продукт
 + перейти к оформлению
@@ -19,6 +21,24 @@ var CONFIG = require("../config.json");
 let order = "";
 
 export const landing = () => {
+  describe("Проверяем наличие виджетов на лэндинге и стороннем сайте", () => {
+    it("Проверяем ниличие виджета на лэндинге", async () => {
+      await browser.url(`https://s-113.libicraft.ru`);
+
+      await expect(browser).toHaveUrlContaining("s-113.libicraft.ru");
+
+      await $("h3.title=Бесплатный курс").waitForExist({ timeout: 10000 });
+    });
+
+    it("Проверяем ниличие виджета на стороннем сайте", async () => {
+      await browser.url(`http://samokats.ru/testovaya-stranica.html`);
+
+      await expect(browser).toHaveUrlContaining("testovaya-stranica");
+
+      await $("h3.title=Бесплатный курс").waitForExist({ timeout: 10000 });
+    });
+  });
+
   describe("Заказ продукта на лэндинге", () => {
     it("Открыть лэндинг", async () => {
       await browser.url(
@@ -43,15 +63,13 @@ export const landing = () => {
       await $("input[name='2']").setValue(code[2]);
       await $("input[name='3']").setValue(code[3]);
 
-      await $("div=Номер подтвержден").waitForExist({ timeout: 3000 });
+      await $("div=Номер подтвержден").waitForExist({ timeout: 10000 });
     });
 
     it("Оформление заказа и проверка наличия на стороне студента", async () => {
       await $("button=Оформить заказ").waitForExist({ timeout: 10000 });
 
       await (await $("button=Оформить заказ")).click();
-
-      //await browser.pause(5000);
 
       await browser.url(`https://libicraft.ru/login`);
 
