@@ -28,6 +28,14 @@ export const landing = () => {
       await expect(browser).toHaveUrlContaining("s-113.libicraft.ru");
 
       await $("h3.title=Бесплатный курс").waitForExist({ timeout: 10000 });
+
+      const parent = await (
+        await $("h3.title=Бесплатный курс")
+      ).parentElement();
+
+      await (await parent.$(".buy-link")).click();
+
+      await expect(browser).toHaveUrlContaining("15451");
     });
 
     it("Проверяем ниличие виджета на стороннем сайте", async () => {
@@ -35,7 +43,15 @@ export const landing = () => {
 
       await expect(browser).toHaveUrlContaining("testovaya-stranica");
 
+      const parent = await (
+        await $("h3.title=Бесплатный курс")
+      ).parentElement();
+
       await $("h3.title=Бесплатный курс").waitForExist({ timeout: 10000 });
+
+      await (await parent.$(".buy-link")).click();
+
+      await expect(browser).toHaveUrlContaining("15451");
     });
   });
 
@@ -98,7 +114,7 @@ export const landing = () => {
         async () =>
           (await browser.getUrl()) === "https://student.libicraft.ru/inbox",
         {
-          timeout: 5000,
+          timeout: 10000,
           timeoutMsg: "URL не https://student.libicraft.ru/inbox",
         }
       );
@@ -109,7 +125,7 @@ export const landing = () => {
         async () =>
           (await browser.getUrl()) === "https://student.libicraft.ru/order",
         {
-          timeout: 5000,
+          timeout: 10000,
           timeoutMsg: "URL не https://student.libicraft.ru/order",
         }
       );
