@@ -134,7 +134,7 @@ export const master_2 = () => {
       await (
         await $("a[href='/crm/orders/25258']")
       ).waitForExist({
-        timeout: 3000,
+        timeout: 10000,
       });
 
       await (await $("a[href='/crm/orders/25258']")).click();

@@ -10,7 +10,7 @@ const path = require("path");
 export const student_2 = () => {
   describe("Тест приложения студента", () => {
     it("Переход в приложение студента", async () => {
-      await browser.url(`https://student.libicraft.ru`);
+      await browser.url(`https://student.libicraft.ru/inbox`);
 
       await expect(browser).toHaveUrlContaining("student");
     });

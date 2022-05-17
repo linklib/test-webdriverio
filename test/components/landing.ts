@@ -35,7 +35,7 @@ export const landing = () => {
 
       await (await parent.$(".buy-link")).click();
 
-      await expect(browser).toHaveUrlContaining("15451");
+      await expect(browser).toHaveUrlContaining("fieldValuesQuery");
     });
 
     it("Проверяем ниличие виджета на стороннем сайте", async () => {
@@ -51,17 +51,17 @@ export const landing = () => {
 
       await (await parent.$(".buy-link")).click();
 
-      await expect(browser).toHaveUrlContaining("15451");
+      await expect(browser).toHaveUrlContaining("fieldValuesQuery");
     });
   });
 
   describe("Заказ продукта на лэндинге", () => {
     it("Открыть лэндинг", async () => {
       await browser.url(
-        `https://s-113.libicraft.ru/order/15451?fieldValuesQuery=-1808-287`
+        `https://s-113.libicraft.ru/order/15566?fieldValuesQuery=-1808-287`
       );
 
-      await expect(browser).toHaveUrlContaining("15451");
+      await expect(browser).toHaveUrlContaining("fieldValuesQuery");
     });
 
     it("Подтверждение телефона", async () => {
@@ -83,9 +83,9 @@ export const landing = () => {
     });
 
     it("Оформление заказа и проверка наличия на стороне студента", async () => {
-      await $("button=Оформить заказ").waitForExist({ timeout: 10000 });
+      await $("button=Регистрация").waitForExist({ timeout: 10000 });
 
-      await (await $("button=Оформить заказ")).click();
+      await (await $("button=Регистрация")).click();
 
       await browser.url(`https://libicraft.ru/login`);
 
@@ -109,6 +109,17 @@ export const landing = () => {
       await $("input[type=tel]:nth-child(2)").setValue(code[1]);
       await $("input[type=tel]:nth-child(3)").setValue(code[2]);
       await $("input[type=tel]:nth-child(4)").setValue(code[3]);
+
+      await browser.waitUntil(
+        async () =>
+          (await browser.getUrl()) === "https://student.libicraft.ru/learning",
+        {
+          timeout: 10000,
+          timeoutMsg: "URL не https://student.libicraft.ru/learning",
+        }
+      );
+
+      await browser.url(`https://student.libicraft.ru/inbox`);
 
       await browser.waitUntil(
         async () =>
@@ -204,14 +215,14 @@ export const landing = () => {
         }
       );
 
-      //await browser.pause(10000);
-
+      //await browser.pause(3000);
+      /*
       await (
         await $("span=Тест2 Попов")
       ).waitForDisplayed({
         timeout: 10000,
       });
-
+*/
       await (
         await $("div=Завершен")
       ).waitForDisplayed({
